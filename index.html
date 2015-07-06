@@ -1,1 +1,228 @@
-You IDIOT!!!
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mary Jane</title>
+	<link rel="stylesheet" href="com.djkramnik.css" type="text/css" />
+	<script type="text/javascript" src="jquery-min.js" ></script>
+	<script type="text/javascript" src="com.djkramnik.sound.js" ></script>
+	<script type="text/javascript" src="com.djkramnik.ui.js" ></script>
+	<script type="text/javascript" src="com.djkramnik.gameState.js" ></script>
+    <script type="text/javascript" src="com.djkramnik.userInput.js" ></script>
+	<script type="text/javascript" src="com.djkramnik.kasparov.js"></script>
+	<script type="text/javascript" src="garbochess.js"></script>
+	<script type="text/javascript" src="boardui.js"></script>
+	<meta charset="UTF-8"></meta>
+  </head>
+  <body>
+	 <audio id="kasparovclip" preload="auto">
+	 </audio>
+	 <audio id="normalmove" preload="auto">
+	 </audio>
+	<div id="layout">
+	  <div id="leftPnl">
+	    <div id="playerPnlN">
+		  <div id="playerFlagN">
+			<img id="kFlag" src="finalCopy/nFlag.png" />	
+		  </div>
+		  <div id="playerNameN">Kasparov</div>
+		  <div id="lclockMsg"></div>
+		</div>
+		
+	    <div id="boardPnl">  	      
+	    </div>
+
+	    <div id="playerPnlS">
+		  <div id="playerFlagS">
+		    <img id="cFlag" src="finalCopy/sFlag.png" />
+		  </div>
+		  <div id="playerNameS">Player</div>
+		  <div id="dclockMsg"></div>
+		</div>
+	  </div>
+	  <div id="rightPnl">
+		<div id="kasparovCanvas">
+			<canvas id="kCanvas"></canvas>
+			<span id="moodCaption" class="italicFont"></span>
+		</div>
+	  
+		<div id="emoPnl">
+			<div>-- Ego --</div>
+			<div id="egoMetre"></div>
+			<div>-- Rage --</div>
+			<div id="rageMetre"></div>
+		</div>
+		<div id="btnPnl">
+			
+			<div id="startBtn" class="showPointer startGame"><span class="chessSymbol">k </span>Start Game</div>		
+			<div id="takeBackBtn" class="showPointer inGame"><span class="chessSymbol">p </span>Take Back</div>
+			<div id="drawBtn" class="showPointer inGame"><span class="chessSymbol">n </span>Draw Offer</div>
+			<div id="resignBtn" class="showPointer inGame"><span class="chessSymbol">b </span>Resign</div>
+			<div id="optionsBtn" class="showPointer startGame inGame"><span class="chessSymbol">q </span>Options</div>
+			<div class="startGame">&nbsp;</div>
+			<div class="startGame inGame"><span id="scoreMsg">--Score--<br /></span></div>
+			<div class="optionsMenu">
+			  
+			  <table>
+			  <tr><td colspan="3">--Color--</td></tr>
+			  <tr><td>
+			  <input type="radio" name="playerColor"  value="0">Light</input>
+			  </td><td>
+			  <input type="radio" name="playerColor"  value="1">Dark</input>
+			  </td><td>
+			  <input type="radio" name="playerColor"  value="2" checked="true">Alt</input>
+			  </td></tr>
+			  <tr><td colspan="3">--Clock--</td></tr>
+			  <tr><td>
+			  <input type="radio" name="maxTime"  value="2">2</input>
+			  </td><td>
+			  <input type="radio" name="maxTime"  value="5">5</input>
+			  </td><td>
+			  <input type="radio" name="maxTime"  value="10" checked="true">10</input>
+			  </td></tr>
+			  </table>
+			</div>
+			<div id="switchSidesBtn" class="showPointer optionsMenu"><span class="chessSymbol">n </span>Flip Board</div>
+			<div id="goBackBtn" class="showPointer optionsMenu"><span class="chessSymbol">r </span>Back</div>
+		</div>
+	  </div>
+	</div>
+	<script type="text/javascript">
+		
+		var ui= com.djkramnik.ui;
+		var game= com.djkramnik.gameState;
+		var userInput= com.djkramnik.userInput;
+		var chessBoard = new ui.chessBoard("boardPnl");
+		var gameState= new game.gameModel(10);
+		var normalmove= new com.djkramnik.sound.soundPlayer("normalmove");
+		var kasparovclip= new com.djkramnik.sound.soundPlayer("kasparovclip");
+		var canvas= document.getElementById("kCanvas");
+		canvas.width=canvas.offsetWidth;
+		canvas.height=canvas.offsetHeight;	
+
+		var kasparov= new com.djkramnik.kasparov.emoKasparov(canvas,kasparovclip,document.getElementById("moodCaption"));
+		kasparov.rageMetreElem= document.getElementById("rageMetre");
+		kasparov.egoMetreElem= document.getElementById("egoMetre");
+		kasparov.adjustEgoMetre(50);
+		kasparov.adjustRageMetre(40);
+		
+		chessBoard.initSoundPlayer(normalmove);
+		chessBoard.createSquares();
+		chessBoard.setPieces(gameState.piecePosConfig);
+        userInput.chessBoard= chessBoard;
+		userInput.gameState = gameState;
+		userInput.createMappedSquares("boardPnl"); 
+		userInput.optionsConfig=new userInput.optionsConfiguration();
+		userInput.kasparov=kasparov;
+		
+		//var rageMetre= document.getElementById("rageMetre");
+		//rageMetre.animate({opacity:"100%"},500);
+		//$(rageMetre).animate({width:"100%"},500);
+		
+		//userInput.beginGame();
+		
+		function calcDivHeight(divName){
+			return Math.floor(document.getElementById(divName).offsetHeight);
+		}	
+		function resizeUI(){
+				
+			var winW= window.innerWidth;
+			var winH= window.innerHeight;
+			var layout=document.getElementById("layout");
+			if(layout.offsetWidth < winW){
+				layout.style.left= ((winW - layout.offsetWidth)/2)+"px";
+			}
+			if(layout.offsetHeight < winH){
+				layout.style.top= ((winH - layout.offsetHeight)/2)+"px";
+			}
+			
+			var kFlag= document.getElementById("kFlag");
+			kFlag.style.height="100%";
+			kFlag.style.width= (kFlag.offsetHeight / (178/286)) + "px";
+			
+			var cFlag= document.getElementById("cFlag");
+			cFlag.style.height="100%";
+			cFlag.style.width= (cFlag.offsetHeight / (178/286)) + "px";
+			
+			$("#playerPnlN > div").css("font-size",calcDivHeight("playerNameN")+"px");
+		    $("#playerPnlN > div").css("line-height",calcDivHeight("playerNameN")+"px");
+			$("#playerPnlS > div").css("font-size",calcDivHeight("playerNameS")+"px");
+		    $("#playerPnlS > div").css("line-height",calcDivHeight("playerNameS")+"px");
+		}
+		
+		
+		resizeUI();
+		window.onresize=resizeUI;
+		
+
+		
+		var context= canvas.getContext("2d");
+		var kasparovPic= new Image();
+		
+		//kasparovPic.src="./finalCopy/kasparov/samplePic.png";
+
+		/*
+		kasparovPic.onload=function(){	
+			
+			var kasparovRatio= kasparovPic.width / kasparovPic.height;
+			canvas.width=canvas.offsetWidth;
+			canvas.height=canvas.offsetHeight;			
+			var canvasW= canvas.width * kasparovRatio;			
+			context.drawImage(kasparovPic,((canvas.width-canvasW)/2),0,canvas.width * kasparovRatio, canvas.height);
+
+		}
+		*/
+		ui.hideElementsByClassName("inGame");
+		ui.hideElementsByClassName("optionsMenu");
+		ui.showElementsByClassName("startGame");
+		
+		var startButton= new ui.optionButton("startBtn","gameBtn");
+		var resignButton= new ui.optionButton("resignBtn","gameBtn");
+		var drawButton= new ui.optionButton("drawBtn","gameBtn");
+		var takeBackButton= new ui.optionButton("takeBackBtn","gameBtn");
+		var switchButton= new ui.optionButton("switchSidesBtn","gameBtn");
+		var optionButton= new ui.optionButton("optionsBtn","gameBtn");
+		var goBackButton= new ui.optionButton("goBackBtn","gameBtn");
+		
+		resignButton.addButtonEvent("mousedown",userInput.resignGame);
+		//resignButton.addButtonEvent("mousedown",userInput.resignClick);
+		/*
+		startButton.addButtonEvent("mousedown",function(){
+			kasparov.playEventSound("win");
+		});
+		*/
+		
+		startButton.addButtonEvent("mousedown",userInput.beginGame);
+		startButton.addButtonEvent("mousedown",function(){
+			ui.hideElementsByClassName("startGame");
+			ui.showElementsByClassName("inGame");
+		});
+		
+		drawButton.addButtonEvent("mousedown",userInput.drawGame);
+		takeBackButton.addButtonEvent("mousedown",function(){
+			userInput.takeBack(2);
+		});
+		switchButton.addButtonEvent("mousedown",userInput.reverseBoard);
+		
+
+		
+		optionButton.addButtonEvent("mousedown",function(){
+			
+			ui.hideElementsByClassName("inGame");
+			ui.hideElementsByClassName("startGame");
+			ui.showElementsByClassName("optionsMenu");
+		});
+		goBackButton.addButtonEvent("mousedown",function(){
+			
+			ui.hideElementsByClassName("optionsMenu");
+			if(gameState.gameIsOver){
+				ui.showElementsByClassName("startGame");
+			}
+			else{
+				ui.showElementsByClassName("inGame");
+			}
+		});
+
+		
+	</script>
+  </body>
+</html>

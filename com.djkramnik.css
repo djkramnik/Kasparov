@@ -1,0 +1,260 @@
+@font-face {font-family:"MegaKid";
+src:url("16324.ttf") format("truetype");font-weight:normal;font-style:normal;}
+@font-face {font-family:"CKid";
+src:url("16418.ttf") format("truetype");font-weight:normal;font-style:normal;}
+
+
+button{
+
+}
+
+body{
+	overflow:auto;
+	color:white;
+}
+
+div{
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	font-family:MegaKid,"trebuchet ms";
+}
+#layout{
+	position:absolute;
+	width:944px;
+	height:666px;
+	left:0%;
+	top:0%;
+	padding:15px 30px;
+	background-color:black;
+
+}
+#leftPnl{
+	width:555px;
+	height:636px;
+	background-color:black;
+	
+	float:left;
+	margin-right:15px;
+}
+#leftPnl > div{
+	float:left;
+	width:100%;
+}
+#rightPnl{
+	width:314px;
+	height:555px;
+	float:left;
+	top:38.5px;
+	position:relative;
+	
+	
+}
+
+
+#boardPnl{
+	height:555px;
+	border:1px solid black;
+	padding:1px;
+	background-color:white;
+	margin-bottom:2px;
+}
+#playerPnlN{
+	height:38.5px;
+	border:1px solid black;
+	margin-bottom:2px;
+	font-weight:bold;
+	color:white;
+}
+#playerPnlS{
+	height:38.5px;
+	border:1px solid black;
+	font-weight:bold;
+	color:white;
+}
+#playerPnlN > div{
+  float:left;
+  width:45%;
+  height:80%;
+  
+  position:relative;
+  top:10%;
+  padding:0px 10px;
+}
+#playerPnlN #playerTimeN{
+	color:red;
+}
+#playerPnlN #playerFlagN{
+	width:10%;
+	padding:0px 5px;
+	
+}
+
+#playerPnlS > div{
+  float:left;
+  width:45%;
+  height:80%;
+  
+  position:relative;
+  top:10%;
+  padding:0px 10px;
+}
+#playerPnlS #playerFlagS{
+  width:10%;
+  padding:0px 5px;
+}
+
+#lclockMsg, #dclockMsg{
+	text-align:right;
+}
+#lclockMsg{
+  
+}
+
+
+.pieceClass{
+  width:100%;
+  height:100%;
+}
+.flyingPiece{
+  position:absolute;
+
+}
+.squareClass{
+  position:relative;
+  width:12.5%;
+  height:12.5%;
+  float:left;
+}
+.lightSquares{
+  background-image:url('finalCopy/light.png');
+}  
+.darkSquares{
+  background-image:url('finalCopy/dark.png');
+}  
+.selectedSquareLight{
+	background-color:lightcyan;
+	background-image: url('');
+	
+}
+.selectedSquareDark{
+	
+	background-color:steelblue;
+	background-image:url('');
+}
+
+.showPointer{
+  cursor:pointer;
+}
+.mappedSquareClass{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:3;
+}
+canvas{
+  box-sizing:border-box;
+  position:relative;
+  left:5%;
+  top:1%;
+  height:90%;
+  width:90%;
+  border:1px solid white;
+}
+
+ 
+
+#rightPnl > div{
+  float:left;
+
+} 
+
+#kasparovCanvas{
+  height:315px; 
+  width:100%;
+}
+#kasparovCanvas span{
+  left:5%;
+  position:relative;
+}
+
+#emoPnl{
+  height:80px;
+  width:90%;
+  position:relative;
+  left:5%;
+  
+}
+#btnPnl{
+  height:160px;
+  width:90%;
+  position:relative;
+  left:5%;
+  font-size:20px;
+}
+#egoMetre{
+  background-color:green;
+  height:20%;
+  width:0%;
+  position:relative;
+  left:0%;
+  top:0%;
+  border:1px solid white;
+}
+#rageMetre{
+  background-color:red;
+  height:20%;
+  width:0%;
+  position:relative;
+  left:0%;
+  border:1px solid white;
+}
+
+
+
+#mood,#ego{
+	width:100%;
+	height:50%;
+	color:white;
+	text-align:center;
+	position:relative;
+}
+
+#consolePnl{
+	background-color:black;
+	border:1px solid black;
+	padding:1px;
+	width:100%;
+	height:100%;
+	color:white;
+	overflow:auto;
+	font-family:courier;
+}
+.showCursor{
+	border-left:10px solid white;
+}
+#cursor{
+	color:black;
+	display:inline;
+}
+.chessSymbol{
+	font-family:CKid;
+}
+.gameBtn:hover{
+	color:red;
+}
+.italicFont{
+   font-style:italic;
+}
+
+.optionsMenu input{
+ 
+}
+.optionsMenu div{
+  width:80px;
+  display:inline;
+}
+.playerToMove{
+	color:red;
+}
