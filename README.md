@@ -1,5 +1,5 @@
 # Kasparov
-A project I created about a year ago... single page chess app.  Right now needs a lot of work, the js coding is atrocious right now.  But I wanted to have it hosted.  Used to use a C++ AI engine, but for the sake of practicality is now using garbochess.js library () for AI.  
+A project I created about a year ago... single page chess app in which you play Gary Kasparov.  As the game swings in favour of the player/AI sound clips are played to reflect the emotional state of AI Kasparov.  Right now needs a lot of work, the js coding is atrocious right now.  But I wanted to have it hosted.  Used to select moves using a C++ AI engine, but for the sake of practicality is now using garbochess.js library (http://forwardcoding.com/projects/chess/chess.html) for AI.  
 
 TO-DO 
 
