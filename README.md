@@ -1,5 +1,5 @@
 # Kasparov
-A project I created about a year ago... single page chess app in which you play Gary Kasparov.  As the game swings in favour of the player/AI sound clips are played to reflect the emotional state of AI Kasparov.  Right now needs a lot of work, the js coding is atrocious right now.  But I wanted to have it hosted.  Used to select moves using a C++ AI engine, but for the sake of practicality is now using garbochess.js library (http://forwardcoding.com/projects/chess/chess.html) for AI.  
+A project I created about a year ago... single page chess app in which you play Gary Kasparov.  As the game swings in favour of either the human player or the AI sound clips are played to reflect the emotional state of AI Kasparov.  Right now needs a lot of work, the js coding is atrocious right now.  But I wanted to have it hosted.   Used to select moves using a C++ AI engine that I coded prior to this app, but for the sake of practicality is now using garbochess.js library (http://forwardcoding.com/projects/chess/chess.html) for AI.  
 
 Link to play: http://djkramnik.github.io/Kasparov/
 
@@ -19,6 +19,5 @@ UI/Aesthetics:
 - Make this a mobile friendly page (maybe Twitter Bootstrap) 
 
 Design: 
-- Refactor this.  Don't know if I need to use a MV* framework necessarily, but the current state of code is sad. 
-
+- Refactor this.  Don't know if I need to use a MV* framework necessarily.
 
