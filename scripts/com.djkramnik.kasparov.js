@@ -2,16 +2,16 @@
   this.com = this.com || {};
   this.com.djkramnik= this.com.djkramnik || {};
   this.com.djkramnik.kasparov= this.com.djkramnik.kasparov || {};
-  
+
   var kasparov= this.com.djkramnik.kasparov;
-  var _soundDirectory= "./finalCopy/kclips/";
-  var _picDirectory= "./finalCopy/kasparov/";
+  var _soundDirectory= "/assets/soundclips/";
+  var _picDirectory= "/assets/images/";
   var _initEgo= 0;
   var _initColor=0;
   var _initPosGrade="G";
   var _initEgoMetre=50;
   var _initRageMetre=10;
-  
+
   var _masterMoodList=
   [
 	{value:"Calm", title:"Calm", rep:0, color:-1},
@@ -93,7 +93,7 @@
 	{value:"Alone with a bottle of vodka", title:"Alone with a bottle of vodka", rep:0, color:-1},
 	{value:"Annihilation of the personality", title:"Annihilation of the personality", rep:0, color:-1}
   ];
-  
+
   var _masterPicList=
   [
 	{value: "aftermath.jpg", title: "aftermath", rep:0, color:-1 },
@@ -129,7 +129,7 @@
 	{value: "thinkin5.jpg", title: "thinkink5", rep:0, color:-1 },
 	{value: "sample.jpg", title: "sampler", rep:0, color:-1 }
   ];
-  
+
   var _masterClipList=
   [
 	{value: "badpos.mp3", title: "badpos",rep:0, color:-1},
@@ -229,7 +229,7 @@
 	{value: "whiteopening.mp3", title: "whiteopening",rep:0, color:-1},
 	{value: "whiteresign.mp3", title: "whiteresign",rep:0, color:-1}
   ];
-  
+
 
   kasparov.range= function(egomin,arrClips){
 	this.egomin= egomin;
@@ -257,7 +257,7 @@
 	this.rageMetreElem;
 	this.egoMetre= 0;
 	this.rageMetre= 0;
-	
+
 	this.testEmote=function(title){
 		for(var i=0; i<this.masterClipList.length; i++){
 			if(this.masterClipList[i].title == title){
@@ -266,7 +266,7 @@
 			}
 		}
 	};
-	this.emote=function(idx){	
+	this.emote=function(idx){
 		//console.log("emoting: "+idx);
 		this.soundPlayer.playSound(_soundDirectory+this.masterClipList[idx].value);
 	};
@@ -275,16 +275,16 @@
 		this.kasparovPic.src= _picDirectory+this.masterPicList[idx].value;
 		var context= this.context;
 		var canvasElem= this.canvasElem;
-		
+
 		this.kasparovPic.addEventListener("load",function(){
 			context.drawImage(this,0,0,canvasElem.width,canvasElem.height);
 		});
-		
+
 	};
 	this.literaryEmote=function(idx){
 		this.moodCaption.innerHTML= "Mood: "+this.masterMoodList[idx].value;
 	};
-	
+
 	this.createClipArray=function(titleArr,delimiter,masterList){
 		delimiter= (delimiter || "|");
 		var str= delimiter+titleArr.join(delimiter)+delimiter,
@@ -295,9 +295,9 @@
 		return clipArr;
 	};
 
-	
+
 	this.createRange= function(egomin,titleArr,masterList){
-		
+
 		return new kasparov.range(egomin,this.createClipArray(titleArr,"|",masterList));
 	};
 	this.initEvent=function(evtName){
@@ -324,34 +324,34 @@
 			this.litEvts[evtName].push(this.createRange(egomin,titleArr,this.masterMoodList));
 		}
 	};
-	
+
 	this.playMediaFromRange=function(range,callback,masterList){
 		// copy the array
 		var rangeCopy= range.clips.slice();
-		
-		// splice out according to repetition and color 
-	
+
+		// splice out according to repetition and color
+
 		for(var i=rangeCopy.length-1,clip; i >= 0; i--){
 			clip=masterList[rangeCopy[i]];
 			if(clip.rep != range.minrep) rangeCopy.splice(i,1);
 			else if(clip.color != -1 && clip.color != this.playerColor) rangeCopy.splice(i,1);
 		}
-		// pick a sound at random from the remainder 
+		// pick a sound at random from the remainder
 		if(rangeCopy.length ==0 ){
 			range.minrep++;
 			return;
 		}
-		
+
 		var clipIdx= rangeCopy[Math.floor(Math.random() * rangeCopy.length)];
-		
+
 		callback.call(this,clipIdx);
 		//this.emote(clipIdx);
-		// increase the repetition property on the selected clip 
+		// increase the repetition property on the selected clip
 		masterList[clipIdx].rep++;
 		// see if the minimum repetition property of the range needs to be incremented
 		if(rangeCopy.length < 2) range.minrep++;
 	};
-	
+
 	this.playEventSound=function(evtName){
 		var eventArr= this.emoEvts[evtName];
 		if(eventArr){
@@ -385,23 +385,23 @@
 			}
 		}
 	};
-	
+
 	this.reactToPosition=function(posGrade,move,queenCapture,promoteMove){
 		//console.log("isQueen: "+queenCapture);
 		//console.log("isPromote: "+promoteMove);
 		//console.log("posGrade: "+posGrade);
-		
+
 
 		if(promoteMove){
 			this.playEventSound("promote");
 			return;
 		}
-		
-		
+
+
 		this.posHistory+=posGrade;
 		var incredulity= this.posHistory[this.posHistory.length-2].charCodeAt(0)- this.posHistory[this.posHistory.length-1].charCodeAt(0);
-		//if this position compared to last represents a significant change in score, play a sound clip based on the position grade 
-		if(incredulity){ 
+		//if this position compared to last represents a significant change in score, play a sound clip based on the position grade
+		if(incredulity){
 			//play adv/dis event
 			switch(posGrade){
 				case "B":
@@ -417,7 +417,7 @@
 				  }
 				  break;
 				case "E":
-				case "F":  
+				case "F":
 				  this.playEventSound("adv1");
 				  this.showEventPic("adv1");
 				  this.adjustEgoMetre(2.5);
@@ -432,22 +432,22 @@
 				  this.adjustEgoMetre(-2.5);
 				  this.adjustRageMetre(2.5);
 				  break;
-				case "J":  
+				case "J":
 				case "K":
 				case "L":
 				  this.playEventSound("dis2");
 				  this.showMoodCaption("dis2");
 				  this.adjustEgoMetre(-5);
 				  this.adjustRageMetre(5);
-				  break;	  
+				  break;
 			}
 		}
 		else{
-			//always see if there is a sound to be played based on the specific move 
+			//always see if there is a sound to be played based on the specific move
 			this.playEventSound(move);
-		}	
+		}
 	};
-	
+
 	this.adjustEgo=function(happyDay){
 		if(happyDay){
 			this.ego= this.ego < 3 ? this.ego+1 : this.ego;
@@ -456,9 +456,9 @@
 			this.ego= this.ego > -3 ? this.ego-1 : this.ego;
 		}
 	}
-	
+
 	this.adjustEgoMetre=function(egoBoost){
-		
+
 		this.egoMetre+= egoBoost;
 		if(this.egoMetre < 0) this.egoMetre=0;
 		if(this.egoMetre > 100) this.egoMetre=100;
@@ -476,22 +476,22 @@
 	this.visualEmote(this.masterPicList.length-1);
 	this.literaryEmote(0);
 
-		
+
   };
   	function _initKasparovEvents(){
-		
+
 		//win
-		
+
 		this.initEvent("win");
 		this.addRange("win",2,["gamelove4","kRep","kRep2","kRep3","selflove","selflove2","selflove5"]);
 		this.addRange("win",-1,["selflove3","selflove4","selflove6","selflove7","history3"]);
 		this.addRange("win",-2,["expected"]);
-		
+
 		this.initPicEvent("win");
 		this.addPicRange("win",2,["swag8","swag9","swag10","swag11","swag12"]);
 		this.addPicRange("win",-1,["swag","swag2","swag3","swag4","swag5","swag6"]);
 		this.addPicRange("win",-2,["samplePic","thinkink","thinkink4","thinkink5"]);
-		
+
 		this.initLitEvent("win");
 		this.addLitRange("win",3,["Full of Shit","Intoxicated","Cocksure","Manic","Gleeful","Tickled"]);
 		this.addLitRange("win",2,["Uppity","Presumptuous","Puffed up","Fearless","Satisfied","Flying High","Elated"]);
@@ -504,12 +504,12 @@
 		this.addRange("loss",2,["expected"]);
 		this.addRange("loss",-1,["rant12","rant11","rant","rant2","rant4","rant7","kresolve2","kresolve4","kresolve5","kresolve6"]);
 		this.addRange("loss",-3,["soreloser","soreloser2","soreloser3","soreloser4","soreloser5","soreloser6","rant3","rant6","rant9","rant5","rant10","rant8"]);
-		
+
 		this.initPicEvent("loss");
 		this.addPicRange("loss",2,["samplePic","thinkink","thinkink4","thinkink5"]);
 		this.addPicRange("loss",-1,["distressed3","distressed4","distressed5","aftermath","prayer6"]);
 		this.addPicRange("loss",-3,["distressed","distressed2"]);
-		
+
 		this.initLitEvent("loss");
 		this.addLitRange("loss",1,["Neutral","Socratic","Platonic","Standing By","Collected","Cool","Calm","Still hopeful","Ruminating"]);
 		this.addLitRange("loss",-1,["Irked","Peeved","Annoyed","Frustrated","Perturbed","Anxious","A lil disappointed"]);
@@ -517,33 +517,33 @@
 		this.addLitRange("loss",-3,["Learned helplessness","Pained","Bull****",
 		"Ready to tilt","Indignation","Tantrum incoming",
 		"Clearly I will go sailing no more","Alone with a bottle of vokda","Annihilation of the personality"]);
-		
-		//start 
+
+		//start
 		this.initEvent("start");
 		this.addRange("start",-1,["started","history1","history2","greatchess"]);
 		this.addRange("start",-3, ["rant8"]);
-		
+
 		this.initPicEvent("start");
 		this.addPicRange("start",-1,["thinkink","thinkink2","thinkink3","thinkink4","thinkink5"]);
 		this.addPicRange("start",-3,["aftermath2","aftermath3","aftermath4","aftermath5","aftermath6"]);
-		
+
 		//draw decline
 		this.initEvent("drawDecline");
 		this.addRange("drawDecline",-2,["draw","draw2","draw3"]);
-		
-		//loss on time 
+
+		//loss on time
 		this.initEvent("timeLoss");
 		this.addRange("timeLoss",-1,["lostontime"]);
-		
+
 		//queenadv
 		this.initEvent("queenWin");
 		this.addRange("queenWin",-2,["giveupqueen"]);
-		
+
 		//promotion
 		this.initEvent("promote");
 		this.addRange("promote",-2,["promotion"]);
-		
-		//specific moves 
+
+		//specific moves
 		this.initEvent("d5");
 		this.addRange("d5",-2,["d5","d52"]);
 		this.initEvent("bb2");
@@ -566,58 +566,58 @@
 		this.addRange("qf6",-2,["qf6"]);
 		this.initEvent("castle");
 		this.addRange("castle",-2,["castle"]);
-		
+
 		//adv2
 		this.initEvent("adv2");
 		this.addRange("adv2",1,["domination","gamelove3","gamelove4","gamelove5","patzercheck","matein3","miracles","whitebetter2","whiteattack3","whiteresign","blackbetter","blackattack2"]);
 		this.addRange("adv2",-1,["gamelove","gamelove2","patzercheck","idea","keymove","whiteattack","whiteattack2","whitebetter","blackgame","blackattack"]);
 		this.addRange("adv2",-3,["queenside","unclear","deepthought","threats"]);
-		
+
 		this.initPicEvent("adv2");
 		this.addPicRange("adv2",2,["swag3","swag4","swag5","swag8","swag9","swag10","swag11","swag12"]);
 		this.addPicRange("adv2",-1,["swag","swag2","swag6"]);
 		this.addPicRange("adv2",-3,["prayer2","prayer3","prayer4","prayer5","prayer6"]);
-		
+
 		this.initLitEvent("adv2");
 		this.addLitRange("adv2",2,["Flying High","Presumptuous","Cocksure","Uppity","Fearless","Self-assured","Generous","Gleeful","Perky","Playful"]);
 		this.addLitRange("adv2",0,["Pleased","Cheerful","Convival","Sunny","Elated","Can't Complain","Looking Good"]);
 		this.addLitRange("adv2",-2,["Neutral","Stoic","Standing By","Unruffled","Collected","Cool"]);
 		this.addLitRange("adv2",-3,["A tad bitter","Socratic","Even-handed","Philosophic","Standing By"]);
-		
+
 		//adv1
 		this.initEvent("adv1");
 		this.addRange("adv1",2,["domination","gamelove3","gamelove4","gamelove5","patzercheck","matein3","miracles","whitebetter2","whiteattack3","whiteresign","blackbetter","blackattack2"]);
 		this.addRange("adv1",0,["gamelove","gamelove2","patzercheck","idea","keymove","whiteattack","whiteattack2","whitebetter","blackgame","blackattack"]);
 		this.addRange("adv1",-2,["queenside","unclear","deepthought","threats"]);
-		
+
 		this.initPicEvent("adv1");
 		this.addPicRange("adv1",2,["swag3","swag4","swag5","swag8","swag9","swag10","swag11","swag12"]);
 		this.addPicRange("adv1",1,["swag","swag2","swag6"]);
 		this.addPicRange("adv1",-2,["prayer2","prayer3","prayer4","prayer5","prayer6"]);
-		
+
 		//dis1
 		this.initEvent("dis1");
 		this.addRange("dis1",2,["queenside","unclear","deepthought","threats"]);
 		this.addRange("dis1",-1,["expected","badpos","rant13","rant12"]);
 		this.addRange("dis1",-3,["kresolve","kresolve4","kresolve6","rant8","rant7","soreloser","soreloser2","rant","soreloser6"]);
-		
+
 		this.initPicEvent("dis1");
 		this.addPicRange("dis1",-1,["prayer2","prayer3","prayer4","prayer5","prayer6"]);
 		this.addPicRange("dis1",-3,["distressed","distressed2","distressed4","distressed5","aftermath4"]);
-		
+
 		//dis2
 		this.initEvent("dis2");
 		this.addRange("dis2",1,["expected","badpos","rant13","rant12"]);
 		this.addRange("dis2",-3,["kresolve","kresolve4","kresolve6","rant8","rant7","soreloser","soreloser2","rant","soreloser6"]);
-		
+
 		this.initLitEvent("dis2");
 		this.addLitRange("dis2",2,["Still hopeful","Down but not out","Philosophic","Stoic","Socratic","Philosophic"]);
 		this.addLitRange("dis2",0,["A lil disappointed","Uneasy","Anxious","Restless","Edgy","Unsettled","A tad bitter"]);
 		this.addLitRange("dis2",-2,["Irked","Sore","Frustrated","Disappointed for real now","Disgruntled","Nettled","Annoyed"]);
 		this.addLitRange("dis2",-3,["Chagrined","Pained","Pissed","Bull****","Ruminating","Vexed","Shook up","Disillusioned","Alone with a bottle of vodka"]);
-		
+
 	}
-  
-  
-  
+
+
+
  })();

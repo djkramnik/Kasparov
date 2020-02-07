@@ -1,7 +1,7 @@
 @font-face {font-family:"MegaKid";
-src:url("16324.ttf") format("truetype");font-weight:normal;font-style:normal;}
+src:url("/assets/fonts/16324.ttf") format("truetype");font-weight:normal;font-style:normal;}
 @font-face {font-family:"CKid";
-src:url("16418.ttf") format("truetype");font-weight:normal;font-style:normal;}
+src:url("/assets/fonts/16418.ttf") format("truetype");font-weight:normal;font-style:normal;}
 
 
 button{
@@ -32,7 +32,7 @@ div{
 	width:555px;
 	height:636px;
 	background-color:black;
-	
+
 	float:left;
 	margin-right:15px;
 }
@@ -46,8 +46,8 @@ div{
 	float:left;
 	top:38.5px;
 	position:relative;
-	
-	
+
+
 }
 
 
@@ -75,7 +75,7 @@ div{
   float:left;
   width:45%;
   height:80%;
-  
+
   position:relative;
   top:10%;
   padding:0px 10px;
@@ -86,14 +86,14 @@ div{
 #playerPnlN #playerFlagN{
 	width:10%;
 	padding:0px 5px;
-	
+
 }
 
 #playerPnlS > div{
   float:left;
   width:45%;
   height:80%;
-  
+
   position:relative;
   top:10%;
   padding:0px 10px;
@@ -107,7 +107,7 @@ div{
 	text-align:right;
 }
 #lclockMsg{
-  
+
 }
 
 
@@ -126,18 +126,18 @@ div{
   float:left;
 }
 .lightSquares{
-  background-image:url('finalCopy/light.png');
-}  
+  background-image:url('/assets/pieces/light.png');
+}
 .darkSquares{
-  background-image:url('finalCopy/dark.png');
-}  
+  background-image:url('/assets/pieces/dark.png');
+}
 .selectedSquareLight{
 	background-color:lightcyan;
 	background-image: url('');
-	
+
 }
 .selectedSquareDark{
-	
+
 	background-color:steelblue;
 	background-image:url('');
 }
@@ -163,15 +163,15 @@ canvas{
   border:1px solid white;
 }
 
- 
+
 
 #rightPnl > div{
   float:left;
 
-} 
+}
 
 #kasparovCanvas{
-  height:315px; 
+  height:315px;
   width:100%;
 }
 #kasparovCanvas span{
@@ -184,7 +184,7 @@ canvas{
   width:90%;
   position:relative;
   left:5%;
-  
+
 }
 #btnPnl{
   height:160px;
@@ -249,7 +249,7 @@ canvas{
 }
 
 .optionsMenu input{
- 
+
 }
 .optionsMenu div{
   width:80px;

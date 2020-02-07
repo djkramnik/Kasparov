@@ -3,16 +3,16 @@
   this.com.djkramnik= this.com.djkramnik || {};
   this.com.djkramnik.ui= this.com.djkramnik.ui ||  {};
   var ui= this.com.djkramnik.ui;
-  
+
   var _totalSquareNum= 64;
   var _lightSquares= "lightSquares"
   var _darkSquares= "darkSquares";
   var _squareClass= "squareClass";
   var _pieceClass= "pieceClass";
-  
-  var _picDirectory= "./finalCopy/"
-  var _soundDirectory= _picDirectory;
-  
+
+  var _picDirectory = "/assets/pieces/";
+  var _soundDirectory = "/assets/soundclips/";
+
   var _colorNameToPath=
   {
     "light":"l",
@@ -27,7 +27,7 @@
 	"queen":"queen.png",
 	"king":"king.png"
   };
-  
+
   var _squareColors=
   [
   0,1,0,1,0,1,0,1,
@@ -39,28 +39,28 @@
   0,1,0,1,0,1,0,1,
   1,0,1,0,1,0,1,0
   ];
-  
+
   var _msInMinute=60000;
   var _msInSecond=1000;
-  
-  
+
+
   function _convertMilliSeconds(milliseconds){
     var minutes= Math.floor(milliseconds/_msInMinute);
 	var seconds= Math.floor((milliseconds % _msInMinute)/_msInSecond);
-	
-	
+
+
 	return minutes + " : " + (seconds < 10 ? "0"+seconds : seconds);
 
   }
-  
+
   function _resolvePathToImage(color,pieceType){
     return _picDirectory + _colorNameToPath[color] + _pieceNameToPath[pieceType];
   }
-  
+
     ui.hideElementsByClassName= function hideElementsByClassName(className){
 		$("."+className).hide();
 	};
-		
+
 	ui.showElementsByClassName=function showElementsByClassName(className){
 		$("."+className).show();
 	};
@@ -70,7 +70,7 @@
 		ui.showElementsByClassName("startGame");
 	};
 
-		
+
 	ui.moveSound=
 	{
 		check: _soundDirectory + "move-check.mp3",
@@ -79,18 +79,18 @@
 		castle: _soundDirectory + "castle.mp3",
 		normal: _soundDirectory + "move-self.mp3"
 	};
-	
+
 	ui.playSound=function(soundPlayer,moveType){
 		//console.log("moveType: "+moveType);
-		var moveClip= ui.moveSound[moveType]; 
+		var moveClip= ui.moveSound[moveType];
 		if(soundPlayer && moveClip){
 			soundPlayer.playSound(moveClip);
 		}
 	};
-	
-  
+
+
   ui.optionButton= function(buttonName,buttonStyle,fieldType){
-	
+
 	this.optionBtn= document.getElementById(buttonName) || document.createElement(fieldType ? fieldType : "button");
 	this.optionBtn.id=buttonName;
 	if(buttonStyle){
@@ -105,7 +105,7 @@
 	this.removeButtonStyle=function(buttonStyle){
 		this.optionBtn.classList.remove(buttonStyle);
 	};
-	
+
 	this.addButtonEvent= function(funcName,func){
 		$(this.optionBtn).on(funcName,func);
 	};
@@ -113,18 +113,18 @@
 		this.optionBtn.innerHTML=msg;
 		////console.log("writing a message: "+msg);
 	};
-			
+
   };
-  
-  
-  ui.chessPiece= function chessPiece(color,pieceType,pieceClass){ 
+
+
+  ui.chessPiece= function chessPiece(color,pieceType,pieceClass){
 	this.color=color.toLowerCase();
 	this.pieceType=pieceType.toLowerCase();
 	this.pieceImg= document.createElement("img");
 	this.pieceImg.src= _resolvePathToImage(this.color,this.pieceType);
 	if(pieceClass) this.pieceImg.classList.add(pieceClass);
 	this.changeClass=function(className){
-	  if(className){ 
+	  if(className){
 		this.pieceImg.classList.toggle(className);
 	  }
 	};
@@ -133,28 +133,28 @@
 	  this.pieceType= pieceType.toLowerCase();
 	  this.pieceImg.src= _resolvePathToImage(this.color,this.pieceType);
 	}
-    
+
   }
-  ui.chessSquare= function chessSquare(squareID,squareClass,colorClass){ 
+  ui.chessSquare= function chessSquare(squareID,squareClass,colorClass){
 	this.squareDiv= document.createElement("div");
 	this.squareDiv.id=squareID;
     this.innerDiv= document.createElement("div");
 	this.squareDiv.appendChild(this.innerDiv);
-	
+
 	if(squareClass) this.squareDiv.classList.add(squareClass);
-    if(colorClass) this.squareDiv.classList.add(colorClass);	
-   
-	this.chessPiece= null;  
+    if(colorClass) this.squareDiv.classList.add(colorClass);
+
+	this.chessPiece= null;
 	this.changeClass=function(className){
 	  if(className){
 	    this.squareDiv.classList.toggle(className);
 	  }
 	}
-	
+
 	this.hasPiece=function(){
 	  return (this.chessPiece != null);
 	}
-	this.addPiece=function(chessPiece){  
+	this.addPiece=function(chessPiece){
 	  this.chessPiece=chessPiece;
 	  this.squareDiv.appendChild(chessPiece.pieceImg);
 	}
@@ -176,18 +176,18 @@
 	pieceClass= pieceClass  || _pieceClass;
 	lightSquares= lightSquares || _lightSquares;
 	darkSquares= darkSquares || _darkSquares;
-	
+
 	this.boardDiv= document.getElementById(boardID) || document.createElement("div");
 	this.boardDiv.id= boardID;
-    this.chessSquares={}; 	
+    this.chessSquares={};
 	this.chessSquaresIdx=[];
 	this.scoreBoard= new ui.optionButton("scoreMsg",null,"span");
 	this.scoreBoard.addMessage("--Score--<br />Kasparov: 0 Player: 0");
 	this.lightClockDisplay= new ui.optionButton("lclockMsg",null,"span");
 	this.darkClockDisplay= new ui.optionButton("dclockMsg",null,"span");
 
-		
-	this.displayTime= function(timeToDisplay){	
+
+	this.displayTime= function(timeToDisplay){
 		var convertedTime= _convertMilliSeconds(timeToDisplay);
 		this.lightClockDisplay.addMessage(convertedTime);
 		this.darkClockDisplay.addMessage(convertedTime);
@@ -205,7 +205,7 @@
 		this.lightClockDisplay= this.darkClockDisplay;
 		this.darkClockDisplay=tempObj;
 	};
-	
+
 	this.setPlayerToMove=function(){
 		this.lightClockDisplay.removeButtonStyle("playerToMove");
 		this.darkClockDisplay.addButtonStyle("playerToMove");
@@ -214,16 +214,16 @@
 		this.lightClockDisplay.toggleButtonStyle("playerToMove");
 		this.darkClockDisplay.toggleButtonStyle("playerToMove");
 	};
-	
+
 	this.createSquares= function(){
 	  for(var i=0; i<_totalSquareNum; i++){
-		//this.chessSquares.push(new ui.chessSquare(i,squareClass,_squareColors[i] ? darkSquares : lightSquares)); 
+		//this.chessSquares.push(new ui.chessSquare(i,squareClass,_squareColors[i] ? darkSquares : lightSquares));
 		this.chessSquaresIdx.push(i);
-		this.chessSquares[i]= (new ui.chessSquare(i,squareClass,_squareColors[i] ? darkSquares : lightSquares)); 
+		this.chessSquares[i]= (new ui.chessSquare(i,squareClass,_squareColors[i] ? darkSquares : lightSquares));
 		this.boardDiv.appendChild(this.chessSquares[i].squareDiv);
 	  }
 	};
-	
+
 	this.getSquareColour=function(squareID){
 		return _squareColors[squareID] ? "Dark" : "Light";
 	};
@@ -234,9 +234,9 @@
 		jQuery(".selectedSquareLight").removeClass("selectedSquareLight");
 		jQuery(".selectedSquareDark").removeClass("selectedSquareDark");
 	};
-	
+
 	this.clearPieces=function(){
-	  
+
 	  for(var i=0; i<_totalSquareNum; i++){
 	    if(this.chessSquares[i].hasPiece()){
 		  this.chessSquares[i].removePiece();
@@ -259,7 +259,7 @@
 		this.setPieces(piecePosConfig);
 		this.resetPointers();
 	};
-	
+
 	this.changeSquareClass=function (squareID,className){
 	  this.chessSquares[squareID].changeClass(className);
 	}
@@ -290,27 +290,27 @@
 		//ui.reverseNames();
 	};
 	this.reverseBoardNicely=function(){
-		//under construction.  swap the squares instead of removing and appending them 
+		//under construction.  swap the squares instead of removing and appending them
 	};
-	
+
 	this.menuReset=function(){
 		ui.menuReset();
 	};
-		
+
 	this.initSoundPlayer=function(soundPlayer){
 		this.soundPlayer= soundPlayer;
 	};
 	this.playSound= function(moveType){
 		ui.playSound(this.soundPlayer,moveType);
 	};
-	
-	
+
+
 
   };
-  
 
-  
 
-  
-  
+
+
+
+
 }());
