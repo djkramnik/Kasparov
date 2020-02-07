@@ -1,7 +1,7 @@
 @font-face {font-family:"MegaKid";
-src:url("/assets/fonts/16324.ttf") format("truetype");font-weight:normal;font-style:normal;}
+src:url("../assets/fonts/16324.ttf") format("truetype");font-weight:normal;font-style:normal;}
 @font-face {font-family:"CKid";
-src:url("/assets/fonts/16418.ttf") format("truetype");font-weight:normal;font-style:normal;}
+src:url("../assets/fonts/16418.ttf") format("truetype");font-weight:normal;font-style:normal;}
 
 
 button{
@@ -126,10 +126,10 @@ div{
   float:left;
 }
 .lightSquares{
-  background-image:url('/assets/pieces/light.png');
+  background-image:url('../assets/pieces/light.png');
 }
 .darkSquares{
-  background-image:url('/assets/pieces/dark.png');
+  background-image:url('../assets/pieces/dark.png');
 }
 .selectedSquareLight{
 	background-color:lightcyan;

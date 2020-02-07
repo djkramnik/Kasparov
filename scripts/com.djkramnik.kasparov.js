@@ -4,8 +4,8 @@
   this.com.djkramnik.kasparov= this.com.djkramnik.kasparov || {};
 
   var kasparov= this.com.djkramnik.kasparov;
-  var _soundDirectory= "/assets/soundclips/";
-  var _picDirectory= "/assets/images/";
+  var _soundDirectory= "./assets/soundclips/";
+  var _picDirectory= "./assets/images/";
   var _initEgo= 0;
   var _initColor=0;
   var _initPosGrade="G";

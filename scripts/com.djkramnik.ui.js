@@ -10,8 +10,8 @@
   var _squareClass= "squareClass";
   var _pieceClass= "pieceClass";
 
-  var _picDirectory = "/assets/pieces/";
-  var _soundDirectory = "/assets/soundclips/";
+  var _picDirectory = "./assets/pieces/";
+  var _soundDirectory = "./assets/soundclips/";
 
   var _colorNameToPath=
   {
